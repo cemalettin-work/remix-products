@@ -115,3 +115,13 @@ function handleBrowserRequest(
     setTimeout(abort, ABORT_DELAY);
   });
 }
+
+// Validate required environment variables in the server entry file
+const LIST_OF_REQUIRED_ENVS = ['ALL_PRODUCTS_API_INITIAL_URL', 'PRODUCT_DETAIL_API_URL'];
+
+for (const env of LIST_OF_REQUIRED_ENVS) {
+  if (!process.env[env]) {
+    console.log(env);
+    throw new Error(`Missing required environment variable: ${env}`);
+  }
+}

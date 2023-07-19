@@ -1,6 +1,8 @@
 import { json, Response, type LoaderArgs } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { Link, useLoaderData } from '@remix-run/react';
 import { getProductDetail } from '~/api.server';
+import ErrorComp from '~/components/ErrorComp';
+import ProductDetail from '~/components/ProductDetail';
 
 export async function loader({ params }: LoaderArgs) {
   if (!params.code) {
@@ -20,9 +22,17 @@ export async function loader({ params }: LoaderArgs) {
 
 export default function Index() {
   const { productDetail } = useLoaderData<typeof loader>();
+
   return (
     <div>
-      <pre>{JSON.stringify(productDetail, null, 2)}</pre>
+      <Link to="/" className="text-blue-500 hover:underline">
+        Home
+      </Link>
+      <ProductDetail productDetail={productDetail} />
     </div>
   );
+}
+
+export function ErrorBoundary() {
+  return <ErrorComp />;
 }
